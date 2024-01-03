@@ -1,0 +1,77 @@
+<Ui xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="main.lua" />
+	<Frame name="EventKeyFrame" hidden="true" parent="UIParent" toplevel="true" movable="true" enableMouse="true" clampedToScreen="true" dontSavePosition="true">
+		<Size x="326" y="106" />
+		<Anchors>
+			<Anchor point="CENTER" />
+		</Anchors>
+		<Backdrop bgFile="Interface\TutorialFrame\TutorialFrameBackground" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+			<BackgroundInsets>
+				<AbsInset left="5" right="5" top="5" bottom="5" />
+			</BackgroundInsets>
+			<TileSize>
+				<AbsValue val="32" />
+			</TileSize>
+			<EdgeSize>
+				<AbsValue val="16" />
+			</EdgeSize>
+		</Backdrop>
+		<Layers>
+			<Layer level="OVERLAY">
+				<FontString name="EnterKeyText" inherits="GameFontNormal" text="Entrez votre clé d'event : ">
+					<Size x="161" y="20" />
+					<Anchors>
+						<Anchor point="TOP" relativeTo="EventKeyFrame">
+							<Offset y="-10" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Button name="ValidateKeyButton" inherits="UIPanelButtonTemplate" text="Valider">
+				<Size x="75" y="23" />
+				<Anchors>
+					<Anchor point="BOTTOM" relativeTo="EventKeyFrame">
+						<Offset y="10" />
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						ValidateKeyButton_OnClick()
+					</OnClick>
+				</Scripts>
+			</Button>
+			<EditBox name="InputKey" inherits="InputBoxTemplate">
+				<Size x="280" y="30" />
+				<Anchors>
+					<Anchor point="CENTER" relativeTo="EventKeyFrame" />
+				</Anchors>
+				<Scripts>
+					<OnTextChanged>
+
+					</OnTextChanged>
+				</Scripts>
+			</EditBox>
+			<Button name="CloseButton" inherits="UIPanelCloseButton">
+				<Size x="30" y="30" />
+				<Anchors>
+					<Anchor point="TOPRIGHT" relativeTo="EventKeyFrame">
+						<Offset x="-5" y="-5" />
+					</Anchor>
+				</Anchors>
+			</Button>
+		</Frames>
+		<Scripts>
+			<OnLoad inherit="prepend">
+				self:RegisterForDrag("LeftButton")
+			</OnLoad>
+			<OnDragStart>
+				self:StartMoving()
+			</OnDragStart>
+			<OnDragStop>
+				self:StopMovingOrSizing()
+			</OnDragStop>
+		</Scripts>
+	</Frame>
+</Ui>
