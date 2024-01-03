@@ -51,6 +51,9 @@
 					<OnTextChanged>
 
 					</OnTextChanged>
+					<OnEnterPressed>
+						ValidateKeyButton_OnClick()
+					</OnEnterPressed>
 				</Scripts>
 			</EditBox>
 			<Button name="CloseButton" inherits="UIPanelCloseButton">

@@ -1,0 +1,11 @@
+## Interface: 30300
+## Title: Nuttenh-o-tron
+## Version: 2.0.0
+## Author: Soleo, Aniwen
+
+features\admin\Selection.lua
+
+features\client\Events.lua
+
+EventKeyFrame.xml
+ChoosePlayersFrame.xml
