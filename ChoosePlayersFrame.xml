@@ -5,7 +5,7 @@
 	</Font>
 	<Alpha toAlpha="1" />
 	<Frame name="ChoosePlayersFrame" inherits="BackdropTemplate" hidden="true" parent="UIParent" toplevel="true" movable="true" enableMouse="true" clampedToScreen="true" dontSavePosition="true">
-		<Size x="240" y="250" />
+		<Size x="240" y="345" />
 		<Anchors>
 			<Anchor point="CENTER" relativeTo="UIParent" />
 		</Anchors>
@@ -31,30 +31,23 @@
 				<FontString name="GuildFontString" inherits="GameFontNormal" text="Guilde" justifyH="LEFT">
 					<Size x="160" y="20" />
 					<Anchors>
-						<Anchor x="45" y="60" point="LEFT" />
+						<Anchor x="45" y="100" point="LEFT" relativeTo="ChoosePlayersFrame" />
 					</Anchors>
 					<Color r="0.23" g="0.88" b="0.25" />
 				</FontString>
 				<FontString name="RaidFontString" inherits="GameFontNormal" text="Raid" justifyH="LEFT">
 					<Size x="160" y="20" />
 					<Anchors>
-						<Anchor x="45" y="30" point="LEFT" />
+						<Anchor x="45" y="75" point="LEFT" relativeTo="ChoosePlayersFrame" />
 					</Anchors>
 					<Color r="1" g="0.49" />
 				</FontString>
 				<FontString name="PartyFontString" inherits="GameFontNormal" text="Groupe" justifyH="LEFT">
 					<Size x="160" y="20" />
 					<Anchors>
-						<Anchor x="45" point="LEFT" />
+						<Anchor x="45" y="50" point="LEFT" relativeTo="ChoosePlayersFrame" />
 					</Anchors>
 					<Color r="0.67" g="0.67" b="0.99" />
-				</FontString>
-				<FontString name="TargetFontString" inherits="GameFontNormal" text="Cible" justifyH="LEFT">
-					<Size x="160" y="20" />
-					<Anchors>
-						<Anchor x="45" y="-30" point="LEFT" />
-					</Anchors>
-					<Color r="1" g="1" />
 				</FontString>
 			</Layer>
 		</Layers>
@@ -68,7 +61,7 @@
 			<CheckButton name="CB_GuildPlayers" inherits="UICheckButtonTemplate" text="">
 				<Size x="32" y="32" />
 				<Anchors>
-					<Anchor x="15" y="60" point="LEFT" />
+					<Anchor x="15" y="100" point="LEFT" relativeTo="ChoosePlayersFrame" />
 				</Anchors>
 				<Scripts>
 					<OnClick>
@@ -76,10 +69,10 @@
 					</OnClick>
 				</Scripts>
 			</CheckButton>
-			<CheckButton name="CB_RaidPlayers" inherits="UICheckButtonTemplate" text="CheckButton1">
+			<CheckButton name="CB_RaidPlayers" inherits="UICheckButtonTemplate" text="">
 				<Size x="32" y="32" />
 				<Anchors>
-					<Anchor x="15" y="30" point="LEFT" />
+					<Anchor x="15" y="75" point="LEFT" relativeTo="ChoosePlayersFrame" />
 				</Anchors>
 				<Scripts>
 					<OnClick>
@@ -87,10 +80,10 @@
 					</OnClick>
 				</Scripts>
 			</CheckButton>
-			<CheckButton name="CB_PartyPlayers" inherits="UICheckButtonTemplate" text="CheckButton1">
+			<CheckButton name="CB_PartyPlayers" inherits="UICheckButtonTemplate" text="">
 				<Size x="32" y="32" />
 				<Anchors>
-					<Anchor x="15" point="LEFT" />
+					<Anchor x="15" y="50" point="LEFT" relativeTo="ChoosePlayersFrame" />
 				</Anchors>
 				<Scripts>
 					<OnClick>
@@ -98,29 +91,59 @@
 					</OnClick>
 				</Scripts>
 			</CheckButton>
-			<CheckButton name="CB_TargetPlayers" inherits="UICheckButtonTemplate" text="CheckButton1">
-				<Size x="32" y="32" />
-				<Anchors>
-					<Anchor x="15" y="-30" point="LEFT" />
-				</Anchors>
-				<Scripts>
-					<OnClick>
-						CB_TargetPlayers_OnClick(self)
-					</OnClick>
-				</Scripts>
-			</CheckButton>
 			<Button name="ValidateChoosePlayersButton" inherits="UIPanelButtonTemplate" text="Valider">
 				<Size x="75" y="23" />
 				<Anchors>
-					<Anchor point="BOTTOM" relativeTo="ChoosePlayersFrame">
-						<Offset y="10" />
-					</Anchor>
+					<Anchor x="-40" y="10" point="BOTTOM" relativeTo="ChoosePlayersFrame" />
 				</Anchors>
 				<Scripts>
 					<OnClick>
 						ValidateChoosePlayersButton_OnClick()
 					</OnClick>
 				</Scripts>
+			</Button>
+			<Button name="BackChoosePlayersButton" inherits="UIPanelButtonTemplate" text="Retour">
+				<Size x="75" y="23" />
+				<Anchors>
+					<Anchor x="40" y="10" point="BOTTOM" relativeTo="ChoosePlayersFrame" />
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						BackChoosePlayersButton_OnClick(self)
+					</OnClick>
+				</Scripts>
+			</Button>
+			<EditBox name="Input_Player" inherits="InputBoxTemplate">
+				<Size x="100" y="32" />
+				<Anchors>
+					<Anchor x="25" y="25" point="LEFT" relativeTo="ChoosePlayersFrame" />
+				</Anchors>
+			</EditBox>
+			<Button name="PlayerToListButton" inherits="UIPanelButtonTemplate" text="">
+				<Size x="30" y="30" />
+				<Anchors>
+					<Anchor x="30" point="RIGHT" relativeTo="Input_Player" />
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						PlayerToListButton_OnClick(self)
+					</OnClick>
+				</Scripts>
+				<NormalTexture file="Interface\BUTTONS\UI-Panel-SmallerButton-Up" />
+				<PushedTexture file="Interface\BUTTONS\UI-Panel-SmallerButton-Down" />
+			</Button>
+			<Button name="TargetToListButton" inherits="UIPanelButtonTemplate" text="">
+				<Size x="17" y="17" />
+				<Anchors>
+					<Anchor x="15" y="1" point="RIGHT" relativeTo="PlayerToListButton" />
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						TargetToListButton_OnClick(self)
+					</OnClick>
+				</Scripts>
+				<NormalTexture file="Interface\ICONS\Ability_Hunter_FocusedAim" />
+				<PushedTexture file="Interface\ICONS\Ability_Hunter_FocusedAim" />
 			</Button>
 		</Frames>
 		<Scripts>
@@ -137,4 +160,16 @@
 			</OnDragStop>
 		</Scripts>
 	</Frame>
+	<ScrollFrame name="PlayerList" inherits="UIPanelScrollFrameTemplate" parent="ChoosePlayersFrame">
+		<Size x="180" y="124" />
+		<Anchors>
+			<Anchor x="-10" y="50" point="BOTTOM" relativeTo="ChoosePlayersFrame" />
+		</Anchors>
+		<Backdrop bgFile="Interface\TUTORIALFRAME\TutorialFrameBackground" edgeFile="Interface\DialogFrame\UI-DialogBox-Border">
+			<BackgroundInsets>
+				<AbsInset left="5" right="5" top="5" bottom="5" />
+			</BackgroundInsets>
+			<EdgeSize val="16" />
+		</Backdrop>
+	</ScrollFrame>
 </Ui>

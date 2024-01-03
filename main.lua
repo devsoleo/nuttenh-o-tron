@@ -66,6 +66,14 @@ function CB_PartyPlayers_OnClick(self)
     CheckButtonStatus(self)
 end
 
-function CB_TargetPlayers_OnClick(self)
-    CheckButtonStatus(self)
+function BackChoosePlayersButton_OnClick(self)
+    print("Button " .. self:GetName() .. " is pressed")
+end
+
+function PlayerToListButton_OnClick(self)
+    print("Button " .. self:GetName() .. " is pressed")
+end
+
+function TargetToListButton_OnClick(self)
+    print("Button " .. self:GetName() .. " is pressed")
 end
