@@ -48,9 +48,9 @@
 					<Anchor point="CENTER" relativeTo="EventKeyFrame" />
 				</Anchors>
 				<Scripts>
-					<OnTextChanged>
-
-					</OnTextChanged>
+					<OnEscapePressed>
+						self:GetParent():Hide()
+					</OnEscapePressed>
 					<OnEnterPressed>
 						ValidateKeyButton_OnClick()
 					</OnEnterPressed>
@@ -67,6 +67,7 @@
 		</Frames>
 		<Scripts>
 			<OnLoad inherit="prepend">
+				tinsert(UISpecialFrames, self:GetName())
 				self:RegisterForDrag("LeftButton")
 			</OnLoad>
 			<OnDragStart>

@@ -113,11 +113,16 @@
 					</OnClick>
 				</Scripts>
 			</Button>
-			<EditBox name="Input_Player" inherits="InputBoxTemplate">
+			<EditBox name="Input_Player" inherits="InputBoxTemplate" parent="ChoosePlayersFrame" enableKeyboard="true" autoFocus="false">
 				<Size x="100" y="32" />
 				<Anchors>
 					<Anchor x="25" y="25" point="LEFT" relativeTo="ChoosePlayersFrame" />
 				</Anchors>
+				<Scripts>
+					<OnEscapePressed>
+						self:ClearFocus()
+					</OnEscapePressed>
+				</Scripts>
 			</EditBox>
 			<Button name="PlayerToListButton" inherits="UIPanelButtonTemplate" text="">
 				<Size x="30" y="30" />
@@ -148,8 +153,7 @@
 		</Frames>
 		<Scripts>
 			<OnLoad inherit="prepend">
-				ChoosePlayersFrame_OnLoad()
-
+				tinsert(UISpecialFrames, self:GetName())
 				self:RegisterForDrag("LeftButton")
 			</OnLoad>
 			<OnDragStart>
@@ -163,13 +167,23 @@
 	<ScrollFrame name="PlayerList" inherits="UIPanelScrollFrameTemplate" parent="ChoosePlayersFrame">
 		<Size x="180" y="124" />
 		<Anchors>
-			<Anchor x="-10" y="50" point="BOTTOM" relativeTo="ChoosePlayersFrame" />
+			<Anchor point="BOTTOM" relativeTo="ChoosePlayersFrame" x="-10" y="50"/>
 		</Anchors>
-		<Backdrop bgFile="Interface\TUTORIALFRAME\TutorialFrameBackground" edgeFile="Interface\DialogFrame\UI-DialogBox-Border">
+		<Scripts>
+			<OnLoad>
+				local scrollChild = CreateFrame("Frame", "$parentScrollChild", PlayerList)
+				PlayerList:SetScrollChild(scrollChild)
+				scrollChild:SetSize(180, 1) -- Initial size, will expand
+				scrollChild.contentHeight = 0
+				AddLine("UnPaladin")
+			</OnLoad>
+		</Scripts>
+		<Backdrop bgFile="Interface\FriendsFrame\UI-Toast-Background" edgeFile="Interface\FriendsFrame\UI-Toast-Border">
 			<BackgroundInsets>
 				<AbsInset left="5" right="5" top="5" bottom="5" />
 			</BackgroundInsets>
-			<EdgeSize val="16" />
+			<TileSize val="12" />
+			<EdgeSize val="12" />
 		</Backdrop>
 	</ScrollFrame>
 </Ui>

@@ -9,34 +9,15 @@ function SlashCmdList.EVENT(msg, editBox)
 end
 
 function ValidateKeyButton_OnClick()
-    print(InputKey:GetText())
+    print("The key is : ".. InputKey:GetText())
     EventKeyFrame:Hide()
     ChoosePlayersFrame:Show()
-end
-
--- Partie ChoosePlayersFrame
-
-function ChoosePlayersFrame_OnLoad()
-    -- Exemple OnLoad on fait quelque chose
 end
 
 function ValidateChoosePlayersButton_OnClick()
     -- ChoosePlayersFrame:Hide()
     send_invites(get_selection(), InputKey:GetText())
 end
-
-local targetFrame = CreateFrame("Frame")
-targetFrame:RegisterEvent("PLAYER_TARGET_CHANGED")
-targetFrame:SetScript("OnEvent", function(self, event, ...)
-    if event == "PLAYER_TARGET_CHANGED" then
-        if UnitIsPlayer("target") then
-            local targetName = UnitName("target")
-            TargetFontString:SetText("Cible : " .. targetName)
-        else
-            TargetFontString:SetText("Cible")
-        end
-    end
-end)
 
 local function CheckButtonStatus(checkButton)
     if checkButton:GetChecked() then
@@ -76,4 +57,31 @@ end
 
 function TargetToListButton_OnClick(self)
     print("Button " .. self:GetName() .. " is pressed")
+end
+
+-- Test de la scrollframe
+
+function AddLine(name)
+    local playerList = PlayerList
+    local scrollChild = playerList:GetScrollChild()
+
+    -- Crée une nouvelle ligne de texte
+    local line = scrollChild:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+    local yPos = -scrollChild.contentHeight - 5
+    line:SetPoint("TOPLEFT", scrollChild, "TOPLEFT", 5, yPos)
+
+    -- Définit le texte avec le nom du joueur en rose et le reste en couleur standard
+    local pinkColorCode = "|cffffc0cb"
+    local endColorCode = "|r"
+    line:SetText(pinkColorCode .. name .. endColorCode .. " Lvl.80 v2.0")
+
+    -- Met à jour la hauteur du contenu et du scrolling child
+    local lineHeight = 20
+    scrollChild.contentHeight = scrollChild.contentHeight + lineHeight
+    scrollChild:SetHeight(scrollChild.contentHeight)
+
+    -- Met à jour la barre de défilement si elle existe
+    if playerList.ScrollBar then
+        playerList.ScrollBar:SetMinMaxValues(1, scrollChild.contentHeight)
+    end
 end
