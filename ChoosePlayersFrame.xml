@@ -22,7 +22,7 @@
 		</Backdrop>
 		<Layers>
 			<Layer level="OVERLAY">
-				<FontString name="ChoosePlayersText" inherits="GameFontNormal" text="Choisissez les participants">
+				<FontString name="ChoosePlayersText" inherits="GameFontNormal" text="Sélectionnez les participants">
 					<Size x="280" y="60" />
 					<Anchors>
 						<Anchor y="-5" point="TOP" />
@@ -67,6 +67,14 @@
 					<OnClick>
 						CB_GuildPlayers_OnClick(self)
 					</OnClick>
+					<OnLoad>
+						if (isInGuild("PLAYER") == false) then
+							CB_GuildPlayers:SetChecked(false)
+							CB_GuildPlayers:Disable()
+							CB_GuildPlayers:SetAlpha(0.5)
+							GuildFontString:SetAlpha(0.5)
+						end
+					</OnLoad>
 				</Scripts>
 			</CheckButton>
 			<CheckButton name="CB_RaidPlayers" inherits="UICheckButtonTemplate" text="">
@@ -78,6 +86,14 @@
 					<OnClick>
 						CB_RaidPlayers_OnClick(self)
 					</OnClick>
+					<OnLoad>
+						if (UnitInRaid("PLAYER") ~= 1) then
+							CB_RaidPlayers:SetChecked(false)
+							CB_RaidPlayers:Disable()
+							CB_RaidPlayers:SetAlpha(0.5)
+							RaidFontString:SetAlpha(0.5)
+						end
+					</OnLoad>
 				</Scripts>
 			</CheckButton>
 			<CheckButton name="CB_PartyPlayers" inherits="UICheckButtonTemplate" text="">
@@ -89,6 +105,14 @@
 					<OnClick>
 						CB_PartyPlayers_OnClick(self)
 					</OnClick>
+					<OnLoad>
+						if (GetNumPartyMembers() == 0) then
+							CB_PartyPlayers:SetChecked(false)
+							CB_PartyPlayers:Disable()
+							CB_PartyPlayers:SetAlpha(0.5)
+							PartyFontString:SetAlpha(0.5)
+						end
+					</OnLoad>
 				</Scripts>
 			</CheckButton>
 			<Button name="ValidateChoosePlayersButton" inherits="UIPanelButtonTemplate" text="Valider">

@@ -1,3 +1,7 @@
+function isInGuild(unit)
+    return GetGuildInfo(unit) ~= nil
+end
+
 function guildSendMessage(message)
     SendChatMessage(message, "GUILD")
 end

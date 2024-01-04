@@ -5,11 +5,21 @@ PREFIX = "not-a-prefix"
 
 SLASH_EVENT1, SLASH_EVENT2 = '/event', '/not';
 function SlashCmdList.EVENT(msg, editBox)
-    EventKeyFrame:Show()
+    local key = msg:match("^(%S*)%s*(.-)$")
+    
+    if (key ~= nil and key ~= "") then
+        InputKey:SetText(key)
+        EventKeyFrame:Hide()
+        ChoosePlayersFrame:Show()
+    else
+        EventKeyFrame:Show()
+        ChoosePlayersFrame:Hide()
+    end
 end
 
 function ValidateKeyButton_OnClick()
-    print("The key is : ".. InputKey:GetText())
+    -- print("The key is : ".. InputKey:GetText())
+    
     EventKeyFrame:Hide()
     ChoosePlayersFrame:Show()
 end
@@ -48,7 +58,10 @@ function CB_PartyPlayers_OnClick(self)
 end
 
 function BackChoosePlayersButton_OnClick(self)
-    print("Button " .. self:GetName() .. " is pressed")
+    -- print("Button " .. self:GetName() .. " is pressed")
+
+    ChoosePlayersFrame:Hide()
+    EventKeyFrame:Show()
 end
 
 function PlayerToListButton_OnClick(self)

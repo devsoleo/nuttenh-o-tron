@@ -3,7 +3,10 @@
 ## Version: 2.0.0
 ## Author: Soleo, Aniwen
 
+functions\guild_fn.lua
+
 features\admin\Selection.lua
+features\admin\Events.lua
 
 features\client\Events.lua
 
