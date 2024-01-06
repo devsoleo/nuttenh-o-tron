@@ -174,6 +174,19 @@
 				<NormalTexture file="Interface\ICONS\Ability_Hunter_FocusedAim" />
 				<PushedTexture file="Interface\ICONS\Ability_Hunter_FocusedAim" />
 			</Button>
+			<Button name="ClearListButton" text="">
+				<Size x="30" y="30" />
+				<Anchors>
+					<Anchor x="-11" y="25" point="RIGHT" relativeTo="ChoosePlayersFrame" />
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						ClearListButton_OnClick(self)
+					</OnClick>
+				</Scripts>
+				<NormalTexture file="Interface\BUTTONS\CancelButton-Up" />
+				<PushedTexture file="Interface\BUTTONS\CancelButton-Down" />
+			</Button>
 		</Frames>
 		<Scripts>
 			<OnLoad inherit="prepend">
@@ -191,8 +204,15 @@
 	<ScrollFrame name="PlayerList" inherits="UIPanelScrollFrameTemplate" parent="ChoosePlayersFrame">
 		<Size x="180" y="124" />
 		<Anchors>
-			<Anchor point="BOTTOM" relativeTo="ChoosePlayersFrame" x="-10" y="50"/>
+			<Anchor x="-10" y="50" point="BOTTOM" relativeTo="ChoosePlayersFrame" />
 		</Anchors>
+		<Backdrop bgFile="Interface\FriendsFrame\UI-Toast-Background" edgeFile="Interface\FriendsFrame\UI-Toast-Border">
+			<BackgroundInsets>
+				<AbsInset left="5" right="5" top="5" bottom="5" />
+			</BackgroundInsets>
+			<TileSize val="12" />
+			<EdgeSize val="12" />
+		</Backdrop>
 		<Scripts>
 			<OnLoad>
 				local scrollChild = CreateFrame("Frame", "$parentScrollChild", PlayerList)
@@ -202,12 +222,5 @@
 				AddLine("UnPaladin")
 			</OnLoad>
 		</Scripts>
-		<Backdrop bgFile="Interface\FriendsFrame\UI-Toast-Background" edgeFile="Interface\FriendsFrame\UI-Toast-Border">
-			<BackgroundInsets>
-				<AbsInset left="5" right="5" top="5" bottom="5" />
-			</BackgroundInsets>
-			<TileSize val="12" />
-			<EdgeSize val="12" />
-		</Backdrop>
 	</ScrollFrame>
 </Ui>

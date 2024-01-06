@@ -1,0 +1,62 @@
+<Ui xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="main.lua" />
+	<Font virtual="true" outline="NONE">
+		<Color r="1" g="1" b="1" />
+	</Font>
+	<Alpha toAlpha="1" />
+	<Frame name="MissionsFrame" inherits="BackdropTemplate" movable="true" clampedToScreen="true" clipChildren="true" hidden="false">
+		<Size x="200" y="300" />
+		<Anchors>
+			<Anchor point="CENTER" relativeTo="UIParent" />
+		</Anchors>
+		<Backdrop bgFile="Interface\TutorialFrame\TutorialFrameBackground" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+			<BackgroundInsets>
+				<AbsInset left="5" right="5" top="5" bottom="5" />
+			</BackgroundInsets>
+			<TileSize>
+				<AbsValue val="32" />
+			</TileSize>
+			<EdgeSize>
+				<AbsValue val="16" />
+			</EdgeSize>
+		</Backdrop>
+		<Layers>
+			<Layer level="OVERLAY">
+				<FontString name="ChoosePlayersText" inherits="GameFontNormal" text="Event : X152B12">
+					<Size x="280" y="60" />
+					<Anchors>
+						<Anchor y="-5" point="TOP" />
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Button name="MinimizeButton" inherits="UIPanelButtonTemplate">
+				<Size x="25" y="25" />
+				<Anchors>
+					<Anchor x="-5" y="-5" point="TOPRIGHT" relativeTo="$parent" />
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						self:GetParent():Hide()
+						NOT_MinimapButton:Show()
+					</OnClick>
+				</Scripts>
+				<NormalTexture file="Interface\BUTTONS\UI-Panel-HideButton-Up" />
+				<PushedTexture file="Interface\BUTTONS\UI-Panel-HideButton-Down" />
+			</Button>
+		</Frames>
+		<Scripts>
+			<OnLoad inherit="prepend">
+				self:RegisterForDrag("LeftButton")
+			</OnLoad>
+			<OnDragStart>
+				self:StartMoving()
+			</OnDragStart>
+			<OnDragStop>
+				self:StopMovingOrSizing()
+			</OnDragStop>
+		</Scripts>
+	</Frame>
+
+</Ui>

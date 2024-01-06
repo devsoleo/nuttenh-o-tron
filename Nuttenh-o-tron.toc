@@ -12,3 +12,5 @@ features\client\Events.lua
 
 EventKeyFrame.xml
 ChoosePlayersFrame.xml
+MissionsFrame.xml
+MinimapButton.xml
