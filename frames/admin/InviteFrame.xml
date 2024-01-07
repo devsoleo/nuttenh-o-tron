@@ -1,10 +1,10 @@
 <Ui xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.blizzard.com/wow/ui/">
-	<Script file="main.lua" />
+	<Script file="InviteFrame.lua" />
 	<Font virtual="true" outline="NONE">
 		<Color r="1" g="1" b="1" />
 	</Font>
 	<Alpha toAlpha="1" />
-	<Frame name="ChoosePlayersFrame" inherits="BackdropTemplate" hidden="true" parent="UIParent" toplevel="true" movable="true" enableMouse="true" clampedToScreen="true" dontSavePosition="true">
+	<Frame name="F_Invite" inherits="BackdropTemplate" hidden="true" parent="UIParent" toplevel="true" movable="true" enableMouse="true" clampedToScreen="true" dontSavePosition="true">
 		<Size x="240" y="345" />
 		<Anchors>
 			<Anchor point="CENTER" relativeTo="UIParent" />
@@ -22,57 +22,54 @@
 		</Backdrop>
 		<Layers>
 			<Layer level="OVERLAY">
-				<FontString name="ChoosePlayersText" inherits="GameFontNormal" text="Sélectionnez les participants">
+				<FontString name="FS_InvitePlayers" inherits="GameFontNormal" text="Inviter des participants">
 					<Size x="280" y="60" />
 					<Anchors>
 						<Anchor y="-5" point="TOP" />
 					</Anchors>
 				</FontString>
-				<FontString name="GuildFontString" inherits="GameFontNormal" text="Guilde" justifyH="LEFT">
+				<FontString name="FS_Guild" inherits="GameFontNormal" text="Guilde" justifyH="LEFT">
 					<Size x="160" y="20" />
 					<Anchors>
-						<Anchor x="45" y="100" point="LEFT" relativeTo="ChoosePlayersFrame" />
+						<Anchor x="45" y="100" point="LEFT" relativeTo="F_Invite" />
 					</Anchors>
 					<Color r="0.23" g="0.88" b="0.25" />
 				</FontString>
-				<FontString name="RaidFontString" inherits="GameFontNormal" text="Raid" justifyH="LEFT">
+				<FontString name="FS_Raid" inherits="GameFontNormal" text="Raid" justifyH="LEFT">
 					<Size x="160" y="20" />
 					<Anchors>
-						<Anchor x="45" y="75" point="LEFT" relativeTo="ChoosePlayersFrame" />
+						<Anchor x="45" y="75" point="LEFT" relativeTo="F_Invite" />
 					</Anchors>
 					<Color r="1" g="0.49" />
 				</FontString>
-				<FontString name="PartyFontString" inherits="GameFontNormal" text="Groupe" justifyH="LEFT">
+				<FontString name="FS_Party" inherits="GameFontNormal" text="Groupe" justifyH="LEFT">
 					<Size x="160" y="20" />
 					<Anchors>
-						<Anchor x="45" y="50" point="LEFT" relativeTo="ChoosePlayersFrame" />
+						<Anchor x="45" y="50" point="LEFT" relativeTo="F_Invite" />
 					</Anchors>
 					<Color r="0.67" g="0.67" b="0.99" />
 				</FontString>
 			</Layer>
 		</Layers>
 		<Frames>
-			<Button name="CloseButton" inherits="UIPanelCloseButton">
+			<Button inherits="UIPanelCloseButton">
 				<Size x="30" y="30" />
 				<Anchors>
-					<Anchor x="-5" y="-5" point="TOPRIGHT" relativeTo="ChoosePlayersFrame" />
+					<Anchor x="-5" y="-5" point="TOPRIGHT" relativeTo="F_Invite" />
 				</Anchors>
 			</Button>
 			<CheckButton name="CB_GuildPlayers" inherits="UICheckButtonTemplate" text="">
 				<Size x="32" y="32" />
 				<Anchors>
-					<Anchor x="15" y="100" point="LEFT" relativeTo="ChoosePlayersFrame" />
+					<Anchor x="15" y="100" point="LEFT" relativeTo="F_Invite" />
 				</Anchors>
 				<Scripts>
-					<OnClick>
-						CB_GuildPlayers_OnClick(self)
-					</OnClick>
 					<OnLoad>
 						if (isInGuild("PLAYER") == false) then
 							CB_GuildPlayers:SetChecked(false)
 							CB_GuildPlayers:Disable()
 							CB_GuildPlayers:SetAlpha(0.5)
-							GuildFontString:SetAlpha(0.5)
+							FS_Guild:SetAlpha(0.5)
 						end
 					</OnLoad>
 				</Scripts>
@@ -80,7 +77,7 @@
 			<CheckButton name="CB_RaidPlayers" inherits="UICheckButtonTemplate" text="">
 				<Size x="32" y="32" />
 				<Anchors>
-					<Anchor x="15" y="75" point="LEFT" relativeTo="ChoosePlayersFrame" />
+					<Anchor x="15" y="75" point="LEFT" relativeTo="F_Invite" />
 				</Anchors>
 				<Scripts>
 					<OnClick>
@@ -91,7 +88,7 @@
 							CB_RaidPlayers:SetChecked(false)
 							CB_RaidPlayers:Disable()
 							CB_RaidPlayers:SetAlpha(0.5)
-							RaidFontString:SetAlpha(0.5)
+							FS_Raid:SetAlpha(0.5)
 						end
 					</OnLoad>
 				</Scripts>
@@ -99,48 +96,45 @@
 			<CheckButton name="CB_PartyPlayers" inherits="UICheckButtonTemplate" text="">
 				<Size x="32" y="32" />
 				<Anchors>
-					<Anchor x="15" y="50" point="LEFT" relativeTo="ChoosePlayersFrame" />
+					<Anchor x="15" y="50" point="LEFT" relativeTo="F_Invite" />
 				</Anchors>
 				<Scripts>
-					<OnClick>
-						CB_PartyPlayers_OnClick(self)
-					</OnClick>
 					<OnLoad>
 						if (GetNumPartyMembers() == 0) then
 							CB_PartyPlayers:SetChecked(false)
 							CB_PartyPlayers:Disable()
 							CB_PartyPlayers:SetAlpha(0.5)
-							PartyFontString:SetAlpha(0.5)
+							FS_Party:SetAlpha(0.5)
 						end
 					</OnLoad>
 				</Scripts>
 			</CheckButton>
-			<Button name="ValidateChoosePlayersButton" inherits="UIPanelButtonTemplate" text="Valider">
+			<Button name="B_SubmitInvites" inherits="UIPanelButtonTemplate" text="Valider">
 				<Size x="75" y="23" />
 				<Anchors>
-					<Anchor x="-40" y="10" point="BOTTOM" relativeTo="ChoosePlayersFrame" />
+					<Anchor x="-40" y="10" point="BOTTOM" relativeTo="F_Invite" />
 				</Anchors>
 				<Scripts>
 					<OnClick>
-						ValidateChoosePlayersButton_OnClick()
+						B_SubmitInvites_OnClick(self)
 					</OnClick>
 				</Scripts>
 			</Button>
-			<Button name="BackChoosePlayersButton" inherits="UIPanelButtonTemplate" text="Retour">
+			<Button name="B_BackToEventKeyFrame" inherits="UIPanelButtonTemplate" text="Retour">
 				<Size x="75" y="23" />
 				<Anchors>
-					<Anchor x="40" y="10" point="BOTTOM" relativeTo="ChoosePlayersFrame" />
+					<Anchor x="40" y="10" point="BOTTOM" relativeTo="F_Invite" />
 				</Anchors>
 				<Scripts>
 					<OnClick>
-						BackChoosePlayersButton_OnClick(self)
+						B_BackToEventKeyFrame_OnClick(self)
 					</OnClick>
 				</Scripts>
 			</Button>
-			<EditBox name="Input_Player" inherits="InputBoxTemplate" parent="ChoosePlayersFrame" enableKeyboard="true" autoFocus="false">
+			<EditBox name="EB_InvitedPlayerName" inherits="InputBoxTemplate" parent="F_Invite" enableKeyboard="true" autoFocus="false">
 				<Size x="100" y="32" />
 				<Anchors>
-					<Anchor x="25" y="25" point="LEFT" relativeTo="ChoosePlayersFrame" />
+					<Anchor x="25" y="25" point="LEFT" relativeTo="F_Invite" />
 				</Anchors>
 				<Scripts>
 					<OnLoad>
@@ -151,44 +145,44 @@
 						self:ClearFocus()
 					</OnEscapePressed>
 					<OnEnterPressed>
-						PlayerToListButton_OnClick()
+						B_PlayerNameToInviteList_OnClick(self)
 					</OnEnterPressed>
 				</Scripts>
 			</EditBox>
-			<Button name="PlayerToListButton" inherits="UIPanelButtonTemplate" text="">
+			<Button name="B_PlayerNameToInviteList" inherits="UIPanelButtonTemplate" text="">
 				<Size x="30" y="30" />
 				<Anchors>
-					<Anchor x="30" point="RIGHT" relativeTo="Input_Player" />
+					<Anchor x="30" point="RIGHT" relativeTo="EB_InvitedPlayerName" />
 				</Anchors>
 				<Scripts>
 					<OnClick>
-						PlayerToListButton_OnClick(self)
+						B_PlayerNameToInviteList_OnClick(self)
 					</OnClick>
 				</Scripts>
 				<NormalTexture file="Interface\BUTTONS\UI-Panel-SmallerButton-Up" />
 				<PushedTexture file="Interface\BUTTONS\UI-Panel-SmallerButton-Down" />
 			</Button>
-			<Button name="TargetToListButton" inherits="UIPanelButtonTemplate" text="">
+			<Button name="B_TargetToInviteList" inherits="UIPanelButtonTemplate" text="">
 				<Size x="17" y="17" />
 				<Anchors>
-					<Anchor x="15" y="1" point="RIGHT" relativeTo="PlayerToListButton" />
+					<Anchor x="15" y="1" point="RIGHT" relativeTo="B_PlayerNameToInviteList" />
 				</Anchors>
 				<Scripts>
 					<OnClick>
-						TargetToListButton_OnClick(self)
+						B_TargetToInviteList_OnClick(self)
 					</OnClick>
 				</Scripts>
 				<NormalTexture file="Interface\ICONS\Ability_Hunter_FocusedAim" />
 				<PushedTexture file="Interface\ICONS\Ability_Hunter_FocusedAim" />
 			</Button>
-			<Button name="ClearListButton" text="">
+			<Button name="B_ClearInviteList" text="">
 				<Size x="30" y="30" />
 				<Anchors>
-					<Anchor x="-11" y="25" point="RIGHT" relativeTo="ChoosePlayersFrame" />
+					<Anchor x="-11" y="25" point="RIGHT" relativeTo="F_Invite" />
 				</Anchors>
 				<Scripts>
 					<OnClick>
-						ClearListButton_OnClick(self)
+						clearInviteList()
 					</OnClick>
 				</Scripts>
 				<NormalTexture file="Interface\BUTTONS\CancelButton-Up" />
@@ -208,16 +202,16 @@
 			</OnDragStop>
 		</Scripts>
 	</Frame>
-	<ScrollFrame name="PlayerList" inherits="UIPanelScrollFrameTemplate" parent="ChoosePlayersFrame">
+	<ScrollFrame name="SF_InvitedPlayerList" inherits="UIPanelScrollFrameTemplate" parent="F_Invite">
 		<Size x="180" y="124" />
 		<Anchors>
-			<Anchor x="-10" y="50" point="BOTTOM" relativeTo="ChoosePlayersFrame" />
+			<Anchor x="-10" y="50" point="BOTTOM" relativeTo="F_Invite" />
 		</Anchors>
 		<Scripts>
 			<OnLoad>
-				local scrollChild = CreateFrame("Frame", "$parentScrollChild", PlayerList)
-				PlayerList:SetScrollChild(scrollChild)
-				scrollChild:SetSize(180, 1) -- Initial size, will expand
+				local scrollChild = CreateFrame("Frame", "$parentScrollChild", SF_InvitedPlayerList)
+				SF_InvitedPlayerList:SetScrollChild(scrollChild)
+				scrollChild:SetSize(180, 1)
 				scrollChild.contentHeight = 0
 			</OnLoad>
 		</Scripts>

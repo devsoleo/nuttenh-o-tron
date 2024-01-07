@@ -4,11 +4,11 @@ onGuildUpdate:SetScript("OnEvent", function(self, ...)
     if (isInGuild("PLAYER") == false) then
         CB_GuildPlayers:SetChecked(false)
         CB_GuildPlayers:Disable()
-        GuildFontString:SetAlpha(0.5)
+        FS_Guild:SetAlpha(0.5)
         CB_GuildPlayers:SetAlpha(0.5)
     else
         CB_GuildPlayers:Enable()
-        GuildFontString:SetAlpha(1)
+        FS_Guild:SetAlpha(1)
         CB_GuildPlayers:SetAlpha(1)
     end
 end)
@@ -19,11 +19,11 @@ onRaidUpdate:SetScript("OnEvent", function(self, ...)
     if (UnitInRaid("PLAYER") ~= 1) then
         CB_RaidPlayers:SetChecked(false)
         CB_RaidPlayers:Disable()
-        RaidFontString:SetAlpha(0.5)
+        FS_Raid:SetAlpha(0.5)
         CB_RaidPlayers:SetAlpha(0.5)
     else
         CB_RaidPlayers:Enable()
-        RaidFontString:SetAlpha(1)
+        FS_Raid:SetAlpha(1)
         CB_RaidPlayers:SetAlpha(1)
     end
 end)
@@ -35,10 +35,10 @@ onPartyUpdate:SetScript("OnEvent", function(self, ...)
         CB_PartyPlayers:SetChecked(false)
         CB_PartyPlayers:Disable()
         CB_PartyPlayers:SetAlpha(0.5)
-        PartyFontString:SetAlpha(0.5)
+        FS_Party:SetAlpha(0.5)
     else
         CB_PartyPlayers:Enable()
-        PartyFontString:SetAlpha(1)
+        FS_Party:SetAlpha(1)
         CB_PartyPlayers:SetAlpha(1)
     end
 end)

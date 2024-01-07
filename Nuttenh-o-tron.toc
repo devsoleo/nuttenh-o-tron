@@ -3,16 +3,29 @@
 ## Version: 2.0.0
 ## Author: Soleo, Aniwen
 
-functions\guild_fn.lua
+# functions
 functions\string_fn.lua
+functions\array_fn.lua
+functions\player_fn.lua
+functions\guild_fn.lua
 
+# features : admin
 features\admin\Commands.lua
 features\admin\Events.lua
-features\admin\Selection.lua
+features\admin\Invites.lua
 
+# features : client
 features\client\Events.lua
 
-EventKeyFrame.xml
-ChoosePlayersFrame.xml
-MissionsFrame.xml
-MinimapButton.xml
+# frames : admin
+frames\admin\EventKeyFrame.xml
+frames\admin\InviteFrame.xml
+
+# frames : client
+frames\client\MissionsFrame.xml
+
+# frames : global
+frames\MinimapButton.xml
+
+# Entrypoint
+main.lua

@@ -1,7 +1,6 @@
 <Ui xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.blizzard.com/wow/ui/">
 	<Script file="MinimapButton.lua" />
-		<Button name="NOT_MinimapButton" parent="Minimap" frameStrata="MEDIUM" enableMouse="true" movable="true" hidden="true">
-
+	<Button name="NOT_MinimapButton" parent="Minimap" frameStrata="MEDIUM" enableMouse="true" movable="true" hidden="true">
 		<Size>
 			<AbsDimension x="33" y="33"/>
 		</Size>

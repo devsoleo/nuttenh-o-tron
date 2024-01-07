@@ -5,11 +5,11 @@ function SlashCmdList.EVENT(msg, editBox)
     local key = msg:match("^(%S*)%s*(.-)$")
     
     if (key ~= nil and key ~= "") then
-        InputKey:SetText(key)
-        EventKeyFrame:Hide()
-        ChoosePlayersFrame:Show()
+        EB_EventKey:SetText(key)
+        F_EventKey:Hide()
+        F_Invite:Show()
     else
-        EventKeyFrame:Show()
-        ChoosePlayersFrame:Hide()
+        F_EventKey:Show()
+        F_Invite:Hide()
     end
 end

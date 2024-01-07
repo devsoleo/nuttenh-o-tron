@@ -1,6 +1,6 @@
 <Ui xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.blizzard.com/wow/ui/">
-	<Script file="main.lua" />
-	<Frame name="EventKeyFrame" hidden="true" parent="UIParent" toplevel="true" movable="true" enableMouse="true" clampedToScreen="true" dontSavePosition="true">
+	<Script file="EventKeyFrame.lua" />
+	<Frame name="F_EventKey" hidden="true" parent="UIParent" toplevel="true" movable="true" enableMouse="true" clampedToScreen="true" dontSavePosition="true">
 		<Size x="326" y="106" />
 		<Anchors>
 			<Anchor point="CENTER" />
@@ -18,10 +18,10 @@
 		</Backdrop>
 		<Layers>
 			<Layer level="OVERLAY">
-				<FontString name="EnterKeyText" inherits="GameFontNormal" text="Entrez votre clé d'event : ">
+				<FontString name="FS_EnterEventKey" inherits="GameFontNormal" text="Entrez votre clé d'event : ">
 					<Size x="161" y="20" />
 					<Anchors>
-						<Anchor point="TOP" relativeTo="EventKeyFrame">
+						<Anchor point="TOP" relativeTo="F_EventKey">
 							<Offset y="-10" />
 						</Anchor>
 					</Anchors>
@@ -29,44 +29,44 @@
 			</Layer>
 		</Layers>
 		<Frames>
-			<Button name="ValidateKeyButton" inherits="UIPanelButtonTemplate" text="Valider">
+			<Button name="B_SubmitEventKey" inherits="UIPanelButtonTemplate" text="Valider">
 				<Size x="75" y="23" />
 				<Anchors>
-					<Anchor point="BOTTOM" relativeTo="EventKeyFrame">
+					<Anchor point="BOTTOM" relativeTo="F_EventKey">
 						<Offset y="10" />
 					</Anchor>
 				</Anchors>
 				<Scripts>
 					<OnClick>
-						ValidateKeyButton_OnClick()
+						B_SubmitEventKey_OnClick()
 					</OnClick>
 				</Scripts>
 			</Button>
-			<EditBox name="InputKey" inherits="InputBoxTemplate">
+			<EditBox name="EB_EventKey" inherits="InputBoxTemplate">
 				<Size x="280" y="30" />
 				<Anchors>
-					<Anchor point="CENTER" relativeTo="EventKeyFrame" />
+					<Anchor point="CENTER" relativeTo="F_EventKey" />
 				</Anchors>
 				<Scripts>
 					<OnTextChanged>
 						if (trim(self:GetText()) ~= "") then
-							ValidateKeyButton:Enable()
+							B_SubmitEventKey:Enable()
 						else
-							ValidateKeyButton:Disable()
+							B_SubmitEventKey:Disable()
 						end
 					</OnTextChanged>
 					<OnEscapePressed>
 						self:GetParent():Hide()
 					</OnEscapePressed>
 					<OnEnterPressed>
-						ValidateKeyButton_OnClick()
+						B_SubmitEventKey_OnClick()
 					</OnEnterPressed>
 				</Scripts>
 			</EditBox>
 			<Button name="CloseButton" inherits="UIPanelCloseButton">
 				<Size x="30" y="30" />
 				<Anchors>
-					<Anchor point="TOPRIGHT" relativeTo="EventKeyFrame">
+					<Anchor point="TOPRIGHT" relativeTo="F_EventKey">
 						<Offset x="-5" y="-5" />
 					</Anchor>
 				</Anchors>
