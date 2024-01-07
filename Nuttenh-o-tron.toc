@@ -4,9 +4,11 @@
 ## Author: Soleo, Aniwen
 
 functions\guild_fn.lua
+functions\string_fn.lua
 
-features\admin\Selection.lua
+features\admin\Commands.lua
 features\admin\Events.lua
+features\admin\Selection.lua
 
 features\client\Events.lua
 

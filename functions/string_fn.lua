@@ -22,7 +22,7 @@ function str_split_chunk(text, chunkSize)
 end
 
 function trim(s)
-   return (s:gsub("^%s*(.-)%s*$", "%1"))e
+   return (s:gsub("^%s*(.-)%s*$", "%1"))
 end
 
 function str_split_chunk(text, chunkSize)

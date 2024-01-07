@@ -48,6 +48,13 @@
 					<Anchor point="CENTER" relativeTo="EventKeyFrame" />
 				</Anchors>
 				<Scripts>
+					<OnTextChanged>
+						if (trim(self:GetText()) ~= "") then
+							ValidateKeyButton:Enable()
+						else
+							ValidateKeyButton:Disable()
+						end
+					</OnTextChanged>
 					<OnEscapePressed>
 						self:GetParent():Hide()
 					</OnEscapePressed>
@@ -69,6 +76,7 @@
 			<OnLoad inherit="prepend">
 				tinsert(UISpecialFrames, self:GetName())
 				self:RegisterForDrag("LeftButton")
+				self:EnableKeyboard(true)
 			</OnLoad>
 			<OnDragStart>
 				self:StartMoving()

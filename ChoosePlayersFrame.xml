@@ -143,9 +143,16 @@
 					<Anchor x="25" y="25" point="LEFT" relativeTo="ChoosePlayersFrame" />
 				</Anchors>
 				<Scripts>
+					<OnLoad>
+						-- 12 characters max for a player name
+						self:SetMaxBytes(12)
+					</OnLoad>
 					<OnEscapePressed>
 						self:ClearFocus()
 					</OnEscapePressed>
+					<OnEnterPressed>
+						PlayerToListButton_OnClick()
+					</OnEnterPressed>
 				</Scripts>
 			</EditBox>
 			<Button name="PlayerToListButton" inherits="UIPanelButtonTemplate" text="">
@@ -206,6 +213,14 @@
 		<Anchors>
 			<Anchor x="-10" y="50" point="BOTTOM" relativeTo="ChoosePlayersFrame" />
 		</Anchors>
+		<Scripts>
+			<OnLoad>
+				local scrollChild = CreateFrame("Frame", "$parentScrollChild", PlayerList)
+				PlayerList:SetScrollChild(scrollChild)
+				scrollChild:SetSize(180, 1) -- Initial size, will expand
+				scrollChild.contentHeight = 0
+			</OnLoad>
+		</Scripts>
 		<Backdrop bgFile="Interface\FriendsFrame\UI-Toast-Background" edgeFile="Interface\FriendsFrame\UI-Toast-Border">
 			<BackgroundInsets>
 				<AbsInset left="5" right="5" top="5" bottom="5" />
@@ -213,14 +228,5 @@
 			<TileSize val="12" />
 			<EdgeSize val="12" />
 		</Backdrop>
-		<Scripts>
-			<OnLoad>
-				local scrollChild = CreateFrame("Frame", "$parentScrollChild", PlayerList)
-				PlayerList:SetScrollChild(scrollChild)
-				scrollChild:SetSize(180, 1) -- Initial size, will expand
-				scrollChild.contentHeight = 0
-				AddLine("UnPaladin")
-			</OnLoad>
-		</Scripts>
 	</ScrollFrame>
 </Ui>
