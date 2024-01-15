@@ -1,0 +1,184 @@
+<Ui xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="AdminPanelFrame.lua" />
+	<Frame name="F_AdminPanel" parent="UIParent" toplevel="true" movable="true" enableMouse="true" clampedToScreen="true" dontSavePosition="true" hidden="true">
+		<Size x="900" y="490" />
+		<Anchors>
+			<Anchor y="31" point="CENTER" />
+		</Anchors>
+		<Backdrop bgFile="Interface\TutorialFrame\TutorialFrameBackground" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+			<BackgroundInsets>
+				<AbsInset left="5" right="5" top="5" bottom="5" />
+			</BackgroundInsets>
+			<EdgeSize>
+				<AbsValue val="16" />
+			</EdgeSize>
+		</Backdrop>
+		<Layers>
+			<Layer level="OVERLAY">
+				<FontString name="FS_AdminPanelTitle" inherits="GameFontNormalLarge" text="Nuttenh-o-tron : Admin Panel">
+					<Size x="377" y="20" />
+					<Anchors>
+						<Anchor y="-20" point="TOP" />
+					</Anchors>
+				</FontString>
+				<FontString name="FS_AdminPanelSubTitle" inherits="GameFontNormal" text="Event de : Player Name">
+					<Size x="228" y="20" />
+					<Anchors>
+						<Anchor y="-20" point="BOTTOM" relativeTo="FS_AdminPanelTitle" />
+					</Anchors>
+				</FontString>
+				<FontString name="FS_PlayerListTitle" inherits="GameFontNormal" text="Liste des participants">
+					<Size x="250" y="20" />
+					<Anchors>
+						<Anchor x="25" y="145" point="LEFT" />
+					</Anchors>
+				</FontString>
+				<FontString name="FS_MissionsListTitle" inherits="GameFontNormal" text="Liste des missions">
+					<Size x="250" y="20" />
+					<Anchors>
+						<Anchor y="145" point="CENTER" />
+					</Anchors>
+				</FontString>
+				<FontString name="FS_SendAlertToPlayers" inherits="GameFontNormal" text="Alerte aux participants :" justifyH="LEFT">
+					<Size x="230" y="20" />
+					<Anchors>
+						<Anchor x="-52" y="95" point="RIGHT" />
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Button name="MinimizeButton" inherits="UIPanelButtonTemplate">
+				<Size x="25" y="25" />
+				<Anchors>
+					<Anchor x="-5" y="-5" point="TOPRIGHT" relativeTo="$parent" />
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						self:GetParent():Hide()
+					</OnClick>
+				</Scripts>
+				<NormalTexture file="Interface\BUTTONS\UI-Panel-HideButton-Up" />
+				<PushedTexture file="Interface\BUTTONS\UI-Panel-HideButton-Down" />
+			</Button>
+			<Button name="B_StartEvent" inherits="UIPanelButtonTemplate" text="Démarrer">
+				<Size x="75" y="23" />
+				<Anchors>
+					<Anchor x="-210" y="125" point="RIGHT" />
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						B_StartEvent_OnClick(self)
+					</OnClick>
+				</Scripts>
+			</Button>
+			<Button name="B_PauseEvent" inherits="UIPanelButtonTemplate" text="Pause">
+				<Size x="75" y="23" />
+				<Anchors>
+					<Anchor x="75" point="RIGHT" relativeTo="B_StartEvent" />
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						B_PauseEvent_OnClick(self)
+					</OnClick>
+				</Scripts>
+			</Button>
+			<Button name="B_ShowKey" inherits="UIPanelButtonTemplate" text="Clé">
+				<Size x="75" y="23" />
+				<Anchors>
+					<Anchor x="75" point="RIGHT" relativeTo="B_PauseEvent" />
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						B_ShowKey_OnClick(self)
+					</OnClick>
+				</Scripts>
+			</Button>
+			<Button name="B_SendAlertToPlayers" inherits="UIPanelButtonTemplate" text="Envoyer">
+				<Size x="75" y="23" />
+				<Anchors>
+					<Anchor x="155" y="-51" point="BOTTOM" relativeTo="B_StartEvent" />
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						B_SendAlertToPlayers_OnClick(self)
+					</OnClick>
+				</Scripts>
+			</Button>
+			<PlayerModel name="PM_AdminModel" inherits="BackdropTemplate">
+				<Size x="74" y="79" />
+				<Anchors>
+					<Anchor y="-20" point="LEFT" relativeTo="FS_AdminPanelTitle" />
+				</Anchors>
+				<KeyValues>
+					<KeyValue key="backdropInfo" value="BACKDROP_DIALOG_32_32" keyType="string" type="global" />
+				</KeyValues>
+				<Scripts>
+					<OnLoad>
+						self:SetUnit("PLAYER")
+					</OnLoad>
+				</Scripts>
+			</PlayerModel>
+			<EditBox name="EB_AlertToPlayers" inherits="InputBoxTemplate" autoFocus="false">
+				<Size x="143" y="32" />
+				<Anchors>
+					<Anchor x="41" y="-55" point="BOTTOM" relativeTo="B_StartEvent" />
+				</Anchors>
+			</EditBox>
+		</Frames>
+		<Scripts>
+			<OnLoad inherit="prepend">
+				self:RegisterForDrag("LeftButton")
+			</OnLoad>
+			<OnDragStart>
+				self:StartMoving()
+			</OnDragStart>
+			<OnDragStop>
+				self:StopMovingOrSizing()
+			</OnDragStop>
+		</Scripts>
+	</Frame>
+	<ScrollFrame name="SF_PlayerList" inherits="UIPanelScrollFrameTemplate" parent="F_AdminPanel">
+		<Size x="250" y="350" />
+		<Anchors>
+			<Anchor x="20" y="-40" point="LEFT" relativeTo="F_AdminPanel" />
+		</Anchors>
+		<Backdrop bgFile="Interface\FriendsFrame\UI-Toast-Background" edgeFile="Interface\FriendsFrame\UI-Toast-Border">
+			<BackgroundInsets>
+				<AbsInset left="5" right="5" top="5" bottom="5" />
+			</BackgroundInsets>
+			<TileSize val="12" />
+			<EdgeSize val="12" />
+		</Backdrop>
+		<Scripts>
+			<OnLoad>
+				local scrollChild = CreateFrame("Frame", "$parentScrollChild", self)
+				self:SetScrollChild(scrollChild)
+				scrollChild:SetSize(180, 1)
+				scrollChild.contentHeight = 0
+			</OnLoad>
+		</Scripts>
+	</ScrollFrame>
+	<ScrollFrame name="SF_MissionsList" inherits="UIPanelScrollFrameTemplate" parent="F_AdminPanel">
+		<Size x="250" y="350" />
+		<Anchors>
+			<Anchor y="-40" point="CENTER" relativeTo="F_AdminPanel" />
+		</Anchors>
+		<Backdrop bgFile="Interface\FriendsFrame\UI-Toast-Background" edgeFile="Interface\FriendsFrame\UI-Toast-Border">
+			<BackgroundInsets>
+				<AbsInset left="5" right="5" top="5" bottom="5" />
+			</BackgroundInsets>
+			<TileSize val="12" />
+			<EdgeSize val="12" />
+		</Backdrop>
+		<Scripts>
+			<OnLoad>
+				FS_AdminPanelSubTitle:SetText("Event de : " .. UnitName("PLAYER"))
+				local scrollChild = CreateFrame("Frame", "$parentScrollChild", self)
+				self:SetScrollChild(scrollChild)
+				scrollChild:SetSize(180, 1)
+				scrollChild.contentHeight = 0
+			</OnLoad>
+		</Scripts>
+	</ScrollFrame>
+</Ui>

@@ -5,9 +5,16 @@ function SlashCmdList.EVENT(msg, editBox)
     local key = msg:match("^(%S*)%s*(.-)$")
     
     if (key ~= nil and key ~= "") then
-        EB_EventKey:SetText(key)
         F_EventKey:Hide()
-        F_Invite:Show()
+
+        if (hasInviteToSend(getInviteList()) == false) then
+            EB_EventKey:SetText(key)
+            F_Invite:Show()
+        else
+            EB_EventKey:SetText(key)
+            F_Invite:Hide()
+            F_AdminPanel:Show()
+        end
     else
         F_EventKey:Show()
         F_Invite:Hide()

@@ -35,3 +35,37 @@ function str_split_chunk(text, chunkSize)
 
     return s
 end
+
+-- Exemple d'utilisation
+
+function chiffre(texte)
+    local cle = "maCleSecrete"
+
+    local chiffre = ""
+    local longueurCle = #cle
+
+    for i = 1, #texte do
+        local charCode = string.byte(texte, i)
+        local cleCode = string.byte(cle, (i - 1) % longueurCle + 1)
+        local newCharCode = ((charCode + cleCode) % 256)
+        chiffre = chiffre .. string.char(newCharCode)
+    end
+
+    return chiffre
+end
+
+function dechiffre(texteChiffre)
+    local cle = "maCleSecrete"
+
+    local dechiffre = ""
+    local longueurCle = #cle
+
+    for i = 1, #texteChiffre do
+        local charCode = string.byte(texteChiffre, i)
+        local cleCode = string.byte(cle, (i - 1) % longueurCle + 1)
+        local newCharCode = ((charCode - cleCode) % 256)
+        dechiffre = dechiffre .. string.char(newCharCode)
+    end
+
+    return dechiffre
+end

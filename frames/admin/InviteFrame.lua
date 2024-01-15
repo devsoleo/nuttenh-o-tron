@@ -1,3 +1,15 @@
+function toggleInviteSubmitButton()
+    if (hasInviteToSend(getInviteList())) then
+        B_SubmitInvites:Enable()
+    else
+        B_SubmitInvites:Disable()
+    end
+end
+
+function CB_GuildPlayers_OnClick(self)
+    toggleInviteSubmitButton()
+end
+
 function CB_RaidPlayers_OnClick(self)
     CB_PartyPlayers:SetChecked(true)
 
@@ -6,6 +18,12 @@ function CB_RaidPlayers_OnClick(self)
     else
         CB_PartyPlayers:Enable()
     end
+
+    toggleInviteSubmitButton()
+end
+
+function CB_PartyPlayers_OnClick(self)
+    toggleInviteSubmitButton()
 end
 
 function B_PlayerNameToInviteList_OnClick(self)
@@ -27,5 +45,9 @@ function B_BackToEventKeyFrame_OnClick(self)
 end
 
 function B_SubmitInvites_OnClick(self)
-    sendInvites(getInviteList(), EB_InvitedPlayerName:GetText())
+    if (sendInvites(getInviteList(), EB_InvitedPlayerName:GetText())) then
+        F_Invite:Hide()
+        F_EventKey:Hide()
+        F_AdminPanel:Show()
+    end
 end

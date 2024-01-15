@@ -72,6 +72,9 @@
 							FS_Guild:SetAlpha(0.5)
 						end
 					</OnLoad>
+					<OnClick>
+						CB_GuildPlayers_OnClick(self)
+					</OnClick>
 				</Scripts>
 			</CheckButton>
 			<CheckButton name="CB_RaidPlayers" inherits="UICheckButtonTemplate" text="">
@@ -107,6 +110,9 @@
 							FS_Party:SetAlpha(0.5)
 						end
 					</OnLoad>
+					<OnClick>
+						CB_PartyPlayers_OnClick(self)
+					</OnClick>
 				</Scripts>
 			</CheckButton>
 			<Button name="B_SubmitInvites" inherits="UIPanelButtonTemplate" text="Valider">
@@ -118,6 +124,9 @@
 					<OnClick>
 						B_SubmitInvites_OnClick(self)
 					</OnClick>
+					<OnLoad>
+						self:Disable()
+					</OnLoad>
 				</Scripts>
 			</Button>
 			<Button name="B_BackToEventKeyFrame" inherits="UIPanelButtonTemplate" text="Retour">

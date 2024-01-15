@@ -29,20 +29,50 @@ function getInviteList()
 end
 
 function sendInvites(invites, gamekey)
+    local action = "invite"
+    local inviteSend = false
+
     if (invites["channels"]["GUILD"] == true) then
-        SendAddonMessage(PREFIX, gamekey, "GUILD")
+        SendAddonMessage(PREFIX, action, "GUILD")
+        inviteSend = true
     end
 
     -- Envoie le message d'invitation approprié
     if UnitInRaid("PLAYER") == 1 and invites["channels"]["RAID"] then
-        SendAddonMessage(PREFIX, gamekey, "RAID")
+        SendAddonMessage(PREFIX, action, "RAID")
+        inviteSend = true
     elseif invites["channels"]["PARTY"] then
-        SendAddonMessage(PREFIX, gamekey, "PARTY")
+        SendAddonMessage(PREFIX, action, "PARTY")
+        inviteSend = true
     end
 
     for i, player in ipairs(invites["players"]) do
-        SendAddonMessage(PREFIX, gamekey, "WHISPER", player)
+        SendAddonMessage(PREFIX, action, "WHISPER", player)
+        inviteSend = true
     end
+
+    return inviteSend
+end
+
+function hasInviteToSend(invites)
+    local inviteToSend = false
+
+    if (invites["channels"]["GUILD"] == true) then
+        inviteToSend = true
+    end
+
+    -- Envoie le message d'invitation approprié
+    if UnitInRaid("PLAYER") == 1 and invites["channels"]["RAID"] then
+        inviteToSend = true
+    elseif invites["channels"]["PARTY"] then
+        inviteToSend = true
+    end
+
+    if (sizeof(invites["players"]) > 0) then
+        inviteToSend = true
+    end
+
+    return inviteToSend
 end
 
 function addPlayerToInviteList(player)
@@ -58,6 +88,8 @@ function addPlayerToInviteList(player)
     -- invites["players"][#invites["players"] + 1] = player
     table.insert(invites["players"], player)
     updateInviteList()
+
+    toggleInviteSubmitButton()
 
     return true
 end
@@ -92,7 +124,6 @@ function updateInviteList()
         if SF_InvitedPlayerList.ScrollBar then
             SF_InvitedPlayerList.ScrollBar:SetMinMaxValues(1, scrollChild.contentHeight)
         end
-
     end
 end
 
@@ -100,5 +131,7 @@ function clearInviteList()
     for i = 1, sizeof(invites["players"]) do
         table.remove(invites["players"], i)
         _G["FS_InvitedPlayerListItem" .. i]:SetText("")
-     end
+    end
+
+    toggleInviteSubmitButton()
 end

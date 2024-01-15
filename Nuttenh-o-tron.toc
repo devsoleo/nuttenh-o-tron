@@ -20,6 +20,7 @@ features\client\Events.lua
 # frames : admin
 frames\admin\EventKeyFrame.xml
 frames\admin\InviteFrame.xml
+frames\admin\AdminPanelFrame.xml
 
 # frames : client
 frames\client\MissionsFrame.xml
