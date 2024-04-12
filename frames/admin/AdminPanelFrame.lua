@@ -9,7 +9,9 @@ function B_PauseEvent_OnClick(self)
 end
 
 function B_StopEvent_OnClick(self)
-    set_storage("invites", nil)
+    clear_storage("invites")
+    clear_storage("participants")
+
     F_AdminPanel:Hide()
 
     print("[ADMIN] Event annulé !")
@@ -17,17 +19,29 @@ end
 
 function B_KeyApply_OnClick(self)
     displayMissions(EB_EventKey:GetText())
+
+    set_storage("event_key", EB_EventKey:GetText())
 end
 
 function B_SendAlertToPlayers_OnClick(self)
     print("Button " .. self:GetName() .. " is pressed with input : " .. EB_AlertToPlayers:GetText())
 end
 
-function displayInvitedPlayers()
-    displayList(SF_PlayerList, get_storage("invites")["players"])
+function displayParticipants()
+    if get_storage("participants") == nil then
+        return
+    end
+
+    displayList(SF_ParticipantsList, get_storage("participants"))
 end
 
 function displayMissions(eventKey)
+    if eventKey == nil or eventKey == "" then
+        print("[ADMIN] Clé vide !")
+
+        return
+    end
+    
     local missionsList = str_split(eventKey, "_")
 
     local mod = function(l, i)
@@ -46,10 +60,12 @@ function displayMissions(eventKey)
             text = "Posséder |c000fff00x" .. splited_key[2] .. " " .. splited_key[3]
         end
 
+
         l:SetText(text)
     end
 
     displayList(SF_MissionsList, missionsList, mod)
+    -- print("[ADMIN] Missions ajoutées !")
 end
 
 -- Fonction de base pour afficher une liste de texte dans un scrollframe
@@ -63,12 +79,13 @@ function displayList(sf_element, values, modifier)
 
     for i, text in ipairs(values) do
         local line_name = "FS_" .. sf_element:GetName():sub(4) .. "Item" .. i
-        print(line_name)
         local line = _G[line_name]
 
         if (not line) then
             line = scrollChild:CreateFontString(line_name, "ARTWORK", "GameFontNormal")
         end
+
+        line:SetParent(sf_element)
 
         -- Crée une nouvelle ligne de texte
         local yPos = -scrollChild.contentHeight - 5

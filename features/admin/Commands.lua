@@ -2,22 +2,14 @@ PREFIX = "not-a-prefix"
 
 SLASH_EVENT1, SLASH_EVENT2 = '/event', '/not'
 function SlashCmdList.EVENT(msg, editBox)
-    local key = msg:match("^(%S*)%s*(.-)$")
-    
-    if (key ~= nil and key ~= "") then
-        if (hasInviteToSend() == false and get_storage("invites") == nil) then
+    if F_AdminPanel:IsVisible() == 1 or F_Invite:IsVisible() == 1 then
+        F_AdminPanel:Hide()
+        F_Invite:Hide()
+    else
+        if (get_storage("invites") == nil) then
             F_Invite:Show()
         else
-            F_Invite:Hide()
-
-            if (F_AdminPanel:IsVisible() == 1) then
-                F_AdminPanel:Hide()
-            else
-                F_AdminPanel:Show()
-            end
+            F_AdminPanel:Show()
         end
-    else
-        F_AdminPanel:Show()
-        F_Invite:Hide()
     end
 end

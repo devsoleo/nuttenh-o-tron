@@ -136,6 +136,13 @@
 				<Anchors>
 					<Anchor y="-28" point="BOTTOMLEFT" relativeTo="FS_EventKeyTitle" />
 				</Anchors>
+				<Scripts>
+					<OnShow>
+						if get_storage("event_key") then
+							self:SetText(get_storage("event_key"))
+						end
+					</OnShow>
+				</Scripts>
 			</EditBox>
 			<Button name="B_KeyApply" inherits="UIPanelButtonTemplate" text="Appliquer">
 				<Size x="60" y="23" />
@@ -161,7 +168,7 @@
 			</OnDragStop>
 		</Scripts>
 	</Frame>
-	<ScrollFrame name="SF_PlayerList" inherits="UIPanelScrollFrameTemplate" parent="F_AdminPanel">
+	<ScrollFrame name="SF_ParticipantsList" inherits="UIPanelScrollFrameTemplate" parent="F_AdminPanel">
 		<Size x="250" y="350" />
 		<Anchors>
 			<Anchor x="20" y="-40" point="LEFT" relativeTo="F_AdminPanel" />
@@ -180,7 +187,8 @@
 				scrollChild:SetSize(180, 1)
 				scrollChild.contentHeight = 0
 
-				displayInvitedPlayers()
+				displayParticipants()
+				print("okaze")
 			</OnShow>
 		</Scripts>
 	</ScrollFrame>
@@ -197,13 +205,15 @@
 			<EdgeSize val="12" />
 		</Backdrop>
 		<Scripts>
-			<OnLoad>
+			<OnShow>
 				FS_AdminPanelSubTitle:SetText("Event de : " .. UnitName("PLAYER"))
 				local scrollChild = CreateFrame("Frame", "$parentScrollChild", self)
 				self:SetScrollChild(scrollChild)
 				scrollChild:SetSize(180, 1)
 				scrollChild.contentHeight = 0
-			</OnLoad>
+
+				displayMissions(get_storage("event_key"))
+			</OnShow>
 		</Scripts>
 	</ScrollFrame>
 </Ui>

@@ -223,6 +223,10 @@
 				scrollChild:SetSize(180, 1)
 				scrollChild.contentHeight = 0
 			</OnLoad>
+			<OnShow>
+				getInviteForm()
+				displayInviteList()
+			</OnShow>
 		</Scripts>
 		<Backdrop bgFile="Interface\FriendsFrame\UI-Toast-Background" edgeFile="Interface\FriendsFrame\UI-Toast-Border">
 			<BackgroundInsets>

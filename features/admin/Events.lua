@@ -50,26 +50,26 @@ onAddonMessage:SetScript("OnEvent", function(self, event, prefix, message, chann
         return
     end
 
+    -- VERIFIER SI LE JOUEUR A ETE INVITE EN VERIFIANT SI IL CORRESPOND AU FILTRES
+
     if (message == "accept_invite") then
+        if hasBeenInvited(sender) == false then
+            print("PAS INVITE")
+            return
+        end
+
         print("[ADMIN] " .. sender .. " a accepté votre invitation !")
 
         -- Add player to the event player list
-        local players = get_storage("players")
+        local participants = get_storage("participants")
 
-        if (players == nil) then
-            players = {}
+        if (participants == nil) then
+            participants = {}
         end
 
-        table.insert(players, sender)
-        set_storage("players", players)
+        table.insert(participants, sender)
+        set_storage("participants", participants)
 
-        -- Add FontString to the event panel
-        local FS_Player = F_AdminPanel:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-        FS_Player:SetText(sender)
-        FS_Player:SetPoint("TOPLEFT", 10, -10)
-        FS_Player:SetJustifyH("LEFT")
-        FS_Player:SetWidth(200)
-        FS_Player:SetHeight(20)
-        
+        displayParticipants()
     end
 end)

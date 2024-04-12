@@ -1,5 +1,5 @@
 function toggleInviteSubmitButton()
-    if (hasInviteToSend(getInviteList())) then
+    if (isInviteFormEmpty(getInviteForm()) == false) then
         B_SubmitInvites:Enable()
     else
         B_SubmitInvites:Disable()
@@ -44,10 +44,31 @@ function B_BackToEventKeyFrame_OnClick(self)
 end
 
 function B_SubmitInvites_OnClick(self)
-    if (sendInvites(getInviteList(), EB_InvitedPlayerName:GetText())) then
+    if (sendInvites(getInviteForm(), EB_InvitedPlayerName:GetText())) then
         F_Invite:Hide()
         F_AdminPanel:Show()
 
-        displayMissions(str_split("T-5-Zgurt le maléfique_C-Soleo_P-1-Chauve", "_"))
+        set_storage("invites", _G["invites"])
+        -- displayMissions(str_split("T-5-Zgurt le maléfique_C-Soleo_P-1-Chauve", "_"))
     end
+end
+
+function addPlayerToInviteList(player)
+    player = normalizePlayerName(player)
+
+    -- On vérifie que le joueur n'est pas déjà dans la liste
+    -- On vérifie que le joueur n'est pas le joueur lui-même
+    -- On vérifie que le joueur n'est pas vide
+    if (player == nil or array_search(_G["invites"]["players"], player) ~= nil or player == UnitName("PLAYER")) then
+        return false
+    end
+
+    -- invites["players"][#invites["players"] + 1] = player
+    table.insert(_G["invites"]["players"], player)
+
+    displayInviteList()
+
+    toggleInviteSubmitButton()
+
+    return true
 end
