@@ -41,13 +41,13 @@ end
 
 function B_BackToEventKeyFrame_OnClick(self)
     F_Invite:Hide()
-    F_EventKey:Show()
 end
 
 function B_SubmitInvites_OnClick(self)
     if (sendInvites(getInviteList(), EB_InvitedPlayerName:GetText())) then
         F_Invite:Hide()
-        F_EventKey:Hide()
         F_AdminPanel:Show()
+
+        displayMissions(str_split("T-5-Zgurt le maléfique_C-Soleo_P-1-Chauve", "_"))
     end
 end

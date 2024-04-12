@@ -2,12 +2,12 @@ invites = {}
 invites["channels"] = {}
 invites["players"] = {}
 
+-- On réinitialise la sélection
+invites["channels"]["GUILD"] = false
+invites["channels"]["RAID"] = false
+invites["channels"]["PARTY"] = false
+    
 function getInviteList()
-    -- On réinitialise la sélection
-    invites["channels"]["GUILD"] = false
-    invites["channels"]["RAID"] = false
-    invites["channels"]["PARTY"] = false
-
     -- On récupère le channels sélectionnés
     local guild_players = CB_GuildPlayers:GetChecked()
     local raid_players = CB_RaidPlayers:GetChecked()
@@ -29,32 +29,39 @@ function getInviteList()
 end
 
 function sendInvites(invites, gamekey)
-    local action = "invite"
     local inviteSend = false
 
     if (invites["channels"]["GUILD"] == true) then
-        SendAddonMessage(PREFIX, action, "GUILD")
+        SendAddonMessage(PREFIX, "invite", "GUILD")
         inviteSend = true
     end
 
     -- Envoie le message d'invitation approprié
     if UnitInRaid("PLAYER") == 1 and invites["channels"]["RAID"] then
-        SendAddonMessage(PREFIX, action, "RAID")
+        SendAddonMessage(PREFIX, "invite", "RAID")
         inviteSend = true
     elseif invites["channels"]["PARTY"] then
-        SendAddonMessage(PREFIX, action, "PARTY")
+        SendAddonMessage(PREFIX, "invite", "PARTY")
         inviteSend = true
     end
 
     for i, player in ipairs(invites["players"]) do
-        SendAddonMessage(PREFIX, action, "WHISPER", player)
+        SendAddonMessage(PREFIX, "invite", "WHISPER", player)
         inviteSend = true
+    end
+
+    if (inviteSend) then
+        -- On réinitialise les invites avant de stocker les nouvelles
+        set_storage("invites", clear_table(get_storage("invites")))
+        set_storage("invites", invites)
     end
 
     return inviteSend
 end
 
-function hasInviteToSend(invites)
+-- Fonction qui lit le formulaire afin de déterminer si au moins 1 case à été cochée ou si un joueur à été ajouté
+-- TL;DR : fonction qui vérifie si on peut valider le formulaire
+function hasInviteToSend()
     local inviteToSend = false
 
     if (invites["channels"]["GUILD"] == true) then

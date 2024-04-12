@@ -1,6 +1,6 @@
 <Ui xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.blizzard.com/wow/ui/">
 	<Script file="AdminPanelFrame.lua" />
-	<Frame name="F_AdminPanel" parent="UIParent" toplevel="true" movable="true" enableMouse="true" clampedToScreen="true" dontSavePosition="true" hidden="true">
+	<Frame name="F_AdminPanel" hidden="true" parent="UIParent" toplevel="true" movable="true" enableMouse="true" clampedToScreen="true" dontSavePosition="true">
 		<Size x="900" y="490" />
 		<Anchors>
 			<Anchor y="31" point="CENTER" />
@@ -45,6 +45,12 @@
 						<Anchor x="-52" y="95" point="RIGHT" />
 					</Anchors>
 				</FontString>
+				<FontString name="FS_EventKeyTitle" inherits="GameFontNormal" text="Clé d'évènement :" justifyH="LEFT">
+					<Size x="150" y="20" />
+					<Anchors>
+						<Anchor x="-39" y="102" point="BOTTOM" />
+					</Anchors>
+				</FontString>
 			</Layer>
 		</Layers>
 		<Frames>
@@ -83,14 +89,14 @@
 					</OnClick>
 				</Scripts>
 			</Button>
-			<Button name="B_ShowKey" inherits="UIPanelButtonTemplate" text="Clé">
+			<Button name="B_StopEvent" inherits="UIPanelButtonTemplate" text="Stop">
 				<Size x="75" y="23" />
 				<Anchors>
 					<Anchor x="75" point="RIGHT" relativeTo="B_PauseEvent" />
 				</Anchors>
 				<Scripts>
 					<OnClick>
-						B_ShowKey_OnClick(self)
+						B_StopEvent_OnClick(self)
 					</OnClick>
 				</Scripts>
 			</Button>
@@ -125,6 +131,23 @@
 					<Anchor x="41" y="-55" point="BOTTOM" relativeTo="B_StartEvent" />
 				</Anchors>
 			</EditBox>
+			<EditBox name="EB_EventKey" inherits="InputBoxTemplate">
+				<Size x="166" y="32" />
+				<Anchors>
+					<Anchor y="-28" point="BOTTOMLEFT" relativeTo="FS_EventKeyTitle" />
+				</Anchors>
+			</EditBox>
+			<Button name="B_KeyApply" inherits="UIPanelButtonTemplate" text="Appliquer">
+				<Size x="60" y="23" />
+				<Anchors>
+					<Anchor x="63" y="-4" point="TOPRIGHT" relativeTo="EB_EventKey" />
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						B_KeyApply_OnClick(self)
+					</OnClick>
+				</Scripts>
+			</Button>
 		</Frames>
 		<Scripts>
 			<OnLoad inherit="prepend">
@@ -151,18 +174,20 @@
 			<EdgeSize val="12" />
 		</Backdrop>
 		<Scripts>
-			<OnLoad>
+			<OnShow>
 				local scrollChild = CreateFrame("Frame", "$parentScrollChild", self)
 				self:SetScrollChild(scrollChild)
 				scrollChild:SetSize(180, 1)
 				scrollChild.contentHeight = 0
-			</OnLoad>
+
+				displayInvitedPlayers()
+			</OnShow>
 		</Scripts>
 	</ScrollFrame>
 	<ScrollFrame name="SF_MissionsList" inherits="UIPanelScrollFrameTemplate" parent="F_AdminPanel">
-		<Size x="250" y="350" />
+		<Size x="250" y="250" />
 		<Anchors>
-			<Anchor y="-40" point="CENTER" relativeTo="F_AdminPanel" />
+			<Anchor y="-110" point="TOP" relativeTo="F_AdminPanel" />
 		</Anchors>
 		<Backdrop bgFile="Interface\FriendsFrame\UI-Toast-Background" edgeFile="Interface\FriendsFrame\UI-Toast-Border">
 			<BackgroundInsets>

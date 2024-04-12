@@ -50,5 +50,19 @@ function sizeof(variable)
 		return #variable
 	elseif type(variable) == "table" then
 		return array_size(variable)
+	else
+		return nil
 	end
+end
+
+function clear_table(table)
+	if table == nil then
+		return nil
+	end
+	
+	for k in pairs(table) do
+		table[k] = nil
+	end
+
+	return table
 end

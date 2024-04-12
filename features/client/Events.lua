@@ -17,8 +17,9 @@ onAddonMessage:SetScript("OnEvent", function(self, event, prefix, message, chann
                 text = message,
                 button1 = "Accepter",
                 button2 = "Refuser",
-                OnAccept = function() 
-                   print("oui")
+                OnAccept = function()
+                    SendAddonMessage(PREFIX, "accept_invite", "WHISPER", sender)
+                    print("[CLIENT] Invitation acceptée !", PREFIX)
                 end,
                 timeout = 60,
                 whileDead = true,
