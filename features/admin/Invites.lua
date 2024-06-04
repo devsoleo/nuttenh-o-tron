@@ -87,12 +87,31 @@ function clearInviteList()
     toggleInviteSubmitButton()
 end
 
-function hasBeenInvited(player)
+function checkInvitationAccept(player)
     player = normalizePlayerName(player)
+    local valid = false
 
+    -- Has been invited
     if (array_search(get_storage("invites")["players"], player) ~= nil) then
-        return true
+        valid = true
     end
 
-    return false
+    if get_storage("invites")["channels"]["GUILD"] == true and GetGuildInfo(player) == GetGuildInfo("player") then
+        valid = true
+    end
+
+    if UnitInRaid("player") == 1 and get_storage("invites")["channels"]["RAID"] == true then
+        valid = true
+    end
+
+    if get_storage("invites")["channels"]["PARTY"] == true and UnitInParty(player) == 1 then
+        valid = true
+    end
+
+    -- Already participating
+    if (array_search(_G["participants"], player) ~= nil) then
+        valid = false
+    end
+
+    return valid
 end

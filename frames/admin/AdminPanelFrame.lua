@@ -10,7 +10,8 @@ end
 
 function B_StopEvent_OnClick(self)
     clear_storage("invites")
-    clear_storage("participants")
+
+    _G["participants"] = {}
 
     F_AdminPanel:Hide()
 
@@ -28,11 +29,8 @@ function B_SendAlertToPlayers_OnClick(self)
 end
 
 function displayParticipants()
-    if get_storage("participants") == nil then
-        return
-    end
 
-    displayList(SF_ParticipantsList, get_storage("participants"))
+    displayList(SF_ParticipantsList, _G["participants"])
 end
 
 function displayMissions(eventKey)
@@ -87,6 +85,7 @@ function displayList(sf_element, values, modifier)
 
         line:SetParent(sf_element)
 
+        print(line_name)
         -- Crée une nouvelle ligne de texte
         local yPos = -scrollChild.contentHeight - 5
         line:SetPoint("TOPLEFT", scrollChild, "TOPLEFT", 5, yPos)

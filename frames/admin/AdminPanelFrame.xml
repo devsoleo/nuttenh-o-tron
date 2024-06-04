@@ -181,6 +181,11 @@
 			<EdgeSize val="12" />
 		</Backdrop>
 		<Scripts>
+			<OnLoad>
+				if _G["participants"] == nil then
+					_G["participants"] = {}
+				end
+			</OnLoad>
 			<OnShow>
 				local scrollChild = CreateFrame("Frame", "$parentScrollChild", self)
 				self:SetScrollChild(scrollChild)
@@ -188,7 +193,6 @@
 				scrollChild.contentHeight = 0
 
 				displayParticipants()
-				print("okaze")
 			</OnShow>
 		</Scripts>
 	</ScrollFrame>
