@@ -51,9 +51,8 @@ onAddonMessage:SetScript("OnEvent", function(self, event, prefix, message, chann
     end
 
     -- VERIFIER SI LE JOUEUR A ETE INVITE EN VERIFIANT SI IL CORRESPOND AU FILTRES
-
     if (message == "accept_invite") then
-        if hasBeenInvited(sender) == false then
+        if checkInvitationAccept(sender) == false then
             print("PAS INVITE")
             return
         end
@@ -61,14 +60,7 @@ onAddonMessage:SetScript("OnEvent", function(self, event, prefix, message, chann
         print("[ADMIN] " .. sender .. " a accepté votre invitation !")
 
         -- Add player to the event player list
-        local participants = get_storage("participants")
-
-        if (participants == nil) then
-            participants = {}
-        end
-
-        table.insert(participants, sender)
-        set_storage("participants", participants)
+        table.insert(_G["participants"], sender)
 
         displayParticipants()
     end

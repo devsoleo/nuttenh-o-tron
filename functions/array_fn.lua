@@ -54,3 +54,15 @@ function sizeof(variable)
 		return nil
 	end
 end
+
+function clear_table(table)
+	if table == nil then
+		return nil
+	end
+	
+	for k in pairs(table) do
+		table[k] = nil
+	end
+
+	return table
+end
