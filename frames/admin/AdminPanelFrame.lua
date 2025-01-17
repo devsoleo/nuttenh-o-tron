@@ -19,9 +19,13 @@ function B_StopEvent_OnClick(self)
 end
 
 function B_KeyApply_OnClick(self)
-    displayMissions(EB_EventKey:GetText())
+    local event_key = url_decode(base64_decode(EB_EventKey:GetText()))
 
-    set_storage("event_key", EB_EventKey:GetText())
+    print("Event key : " .. event_key)
+
+    displayMissions(event_key)
+
+    --  set_storage("event_key", EB_EventKey:GetText())
 end
 
 function B_SendAlertToPlayers_OnClick(self)
@@ -39,25 +43,27 @@ function displayMissions(eventKey)
 
         return
     end
-    
-    local missionsList = str_split(eventKey, "_")
+
+    local splitedEventKey = str_split_brackets(eventKey)
+    local headers = splitedEventKey[1]
+    local missions = splitedEventKey[2]
+
+    local headersList = str_split(headers, ";")
+    local missionsList = str_split(missions, ";")
 
     local mod = function(l, i)
         -- Définit le texte avec le nom du joueur en rose et le reste en couleur standard*$
         local key = missionsList[i]
-        local splited_key = str_split(key, "-")
+        local splited_key = str_split(key, "|")
 
         local m_type = splited_key[1]
         local text = ""
 
-        if (m_type == "T") then
-            text = "Tuer |c000fff00x" .. splited_key[2] .. " " .. splited_key[3] .. "|r"
-        elseif (m_type == "C") then 
-            text = "Cibler |c000fff00" .. splited_key[2]
-        elseif (m_type == "P") then
-            text = "Posséder |c000fff00x" .. splited_key[2] .. " " .. splited_key[3]
+        if (m_type == "K") then
+            text = "Kill |c000fff00x" .. splited_key[2] .. " " .. splited_key[3] .. "|r"
+        elseif (m_type == "T") then 
+            text = "Target |c000fff00" .. splited_key[2]
         end
-
 
         l:SetText(text)
     end
@@ -75,6 +81,23 @@ function displayList(sf_element, values, modifier)
     local scrollChild = sf_element:GetScrollChild()
     scrollChild.contentHeight = 0
 
+    -- Supprime les lignes précédentes
+    local i = 1
+
+    while true do
+        local line_name = "FS_" .. SF_MissionsList:GetName():sub(4) .. "Item" .. i
+        local line = _G[line_name]
+
+        if (line == nil) then
+            break
+        else
+            line:SetText("")
+        end
+
+        i = i + 1
+    end
+
+    -- Ajoute les nouvelles lignes
     for i, text in ipairs(values) do
         local line_name = "FS_" .. sf_element:GetName():sub(4) .. "Item" .. i
         local line = _G[line_name]
@@ -85,7 +108,6 @@ function displayList(sf_element, values, modifier)
 
         line:SetParent(sf_element)
 
-        print(line_name)
         -- Crée une nouvelle ligne de texte
         local yPos = -scrollChild.contentHeight - 5
         line:SetPoint("TOPLEFT", scrollChild, "TOPLEFT", 5, yPos)
